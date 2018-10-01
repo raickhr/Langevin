@@ -18,6 +18,9 @@ Langevin
      :target: https://pyup.io/repos/github/raickhr/langevin/
      :alt: Updates
 
+.. image:: https://coveralls.io/repos/github/raickhr/langevin/badge.svg?branch=master
+     :target: https://coveralls.io/github/raickhr/langevin?branch=master
+
 
 
 This is an assingnment for CHE447. University of Rochester

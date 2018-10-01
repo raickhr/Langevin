@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """Tests for `langevin` package."""
+import sys
+sys.path.append('../')
 
+import unittest
 import pytest
 
 from click.testing import CliRunner
@@ -36,3 +39,20 @@ def test_command_line_interface():
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output
+
+class test_ckhr(unittest.TestCase):
+    def test_calc_vis_force(self):
+        velocity = 10
+        res = langevin.calc__vis_force(velocity)
+        assert res == -10
+
+    def test_cal_rand_force(self):
+        self.assertEqual(langevin.calc_rand_force(), 1)
+        # assert travis_test.c == 9
+
+        #pass
+
+
+if __name__ == '__main__':
+    unittest.main()
+
