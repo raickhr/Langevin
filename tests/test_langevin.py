@@ -9,7 +9,6 @@ import unittest
 import pytest
 import random
 import numpy as np
-import matplotlib.pyplot as plt
 
 from click.testing import CliRunner
 
@@ -111,21 +110,21 @@ class test_ckhr(unittest.TestCase):
 
         import os
 
-        initial_position = 1
-        initial_velocity = 1
-        temperature = 1
-        total_time = 10
-        dt = 1
+        # initial_position = 1
+        # initial_velocity = 1
+        # temperature = 1
+        # total_time = 10
+        # dt = 1
 
-        gamma = 1
-        kB = 1         #Boltzman constant
+        # gamma = 1
+        # kB = 1         #Boltzman constant
 
-        wall_pos1 = 0.0 # wall position 1
-        wall_pos2 = 5.0 # wall position 2
+        # wall_pos1 = 0.0 # wall position 1
+        # wall_pos2 = 5.0 # wall position 2
 
-        no_of_iterations = int(total_time//dt)  
+        # no_of_iterations = int(total_time//dt)  
 
-        no_of_runs = 100
+        # no_of_runs = 100
         
         langevin.main()
         
