@@ -66,9 +66,7 @@ def update_pos(velocity,position):
 
 def main():
     global initial_velocity, initial_position
-    stop_time = [0] * no_of_runs # time the particle reaches to one of the walls
-    pos_array = [np.float('nan')] * no_of_iterations
-    time_array = [0.0] * no_of_iterations
+    stop_time = [] # time the particle reaches to one of the walls
 
     ff =  open("../langevin/finalpositions.txt","w") #opening file to write index, stop time, position, velocity' at the time when the particle stops
 
@@ -83,11 +81,11 @@ def main():
         position = initial_position
         velocity = initial_velocity
         current_time = 0.0
-        pos_array[0] = position
-        time_array[0] = current_time
+        pos_array = [position]
+        time_array = [current_time]
 
         #iterations start for every run
-        for iterations in range(1,no_of_iterations):
+        for iterations in range(0,no_of_iterations):
         
             current_time += dt # update time
             velocity = update_velocity(velocity) # update velocity
@@ -95,12 +93,12 @@ def main():
             
             #condition for the particle to stop i.e. when the particle reaches wall
             if (position <= wall_pos1) or (position >= wall_pos2):
-                stop_time[runs] = current_time
+                stop_time.append(current_time)
                 break   # stop iterations when the particle reaches the wall
     
             
-            pos_array[iterations] = position # store position for every iteration to plot for the trajectory
-            time_array[iterations] = current_time # store values for the time axis
+            pos_array.append(position) # store position for every iteration to plot for the trajectory
+            time_array.append(current_time) # store values for the time axis
         
             
         ff.write("%3d,\t% 5.4f,\t% 5.4f,\t% 5.4f \n" % (runs,current_time,position,velocity)) # write the time, final position, final_velocity, when the particle stops 

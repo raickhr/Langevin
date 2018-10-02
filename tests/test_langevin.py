@@ -7,6 +7,9 @@ sys.path.append('../')
 
 import unittest
 import pytest
+import random
+import numpy as np
+import matplotlib.pyplot as plt
 
 from click.testing import CliRunner
 
@@ -42,15 +45,102 @@ def test_command_line_interface():
 
 class test_ckhr(unittest.TestCase):
     def test_calc_vis_force(self):
+        #unittest for the function calc_vis_force(velocity)
         velocity = 10
         res = langevin.calc__vis_force(velocity)
         assert res == -10
 
     def test_cal_rand_force(self):
-        #self.assertEqual(langevin.calc_rand_force(), 1)
-        # assert travis_test.c == 9
+        #unittest for the function calc_rand_force()
+        # pute seed as zero 
+        random.seed(0)
+        mean = 0.0
+        variance = 2 #default value of variance in project
+        standard_deviation = np.sqrt(variance)
+        # generate a random number with the calculated mean and standard deviation
+        zeta = random.normalvariate(mean,standard_deviation)
 
-        pass
+        #again put the same seed as zero
+        random.seed(0)
+        self.assertEqual(langevin.calc_rand_force(), zeta)
+
+    def test_acc(self):
+        #unittest for the function acc(velocity)
+        random.seed(0)
+        velocity = 1
+        acc = langevin.calc__vis_force(velocity) + langevin.calc_rand_force()
+        random.seed(0)
+        self.assertEqual(langevin.acc(velocity), acc)
+
+    def test_update_velocity(self):
+        #unittest for the function update_velocity
+        velocity = 1
+        dt = 1
+        random.seed(0)
+        #calculate updated velocity from RK4 method
+        k1 = dt * langevin.acc(velocity)
+        k2 = dt * langevin.acc(velocity + k1/2)
+        k3 = dt * langevin.acc(velocity * k2/2)
+        k4 = dt * langevin.acc(velocity + k3)
+
+        updated_velocity = velocity + 1/6 * k1 + 1/3 * k2  +1/3 * k3 + 1/6 * k4
+
+        random.seed(0)
+        self.assertEqual(langevin.update_velocity(velocity), updated_velocity)
+
+
+    def test_update_pos(self):
+        #unittest to test function update_pso(velocity)
+        velocity = 1
+        dt = 1
+        position = 1    
+        #calculate updated position from RK4 method
+
+        k1 = dt * velocity
+        k2 = dt * velocity
+        k3 = dt * velocity
+        k4 = dt * velocity
+
+        updated_position = position + 1/6 * k1 + 1/3 * k2  +1/3 * k3 + 1/6 * k4
+        self.assertEqual(langevin.update_pos(velocity,position), updated_position)
+
+    def test_main(self):
+        #unittest to test main() funciton
+
+        # this checks if the files are written or not
+
+        import os
+
+        initial_position = 1
+        initial_velocity = 1
+        temperature = 1
+        total_time = 10
+        dt = 1
+
+        gamma = 1
+        kB = 1         #Boltzman constant
+
+        wall_pos1 = 0.0 # wall position 1
+        wall_pos2 = 5.0 # wall position 2
+
+        no_of_iterations = int(total_time//dt)  
+
+        no_of_runs = 100
+        
+        langevin.main()
+        
+        finalpos = os.path.isfile("../langevin/finalpositions.txt")
+        self.assertEqual(finalpos,True)
+
+        hist = os.path.isfile("../langevin/histogram.png")
+        self.assertEqual(hist,True)
+
+        trajec = os.path.isfile("../langevin/trajectory.png")
+        self.assertEqual(trajec,True)
+
+
+        
+        
 
 
 if __name__ == '__main__':
