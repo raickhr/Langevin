@@ -22,9 +22,10 @@ before install:
   - sudo apt-get install -qq python-numpy python-scipy python-matplotlib.pyplot
 
 # Command to run tests, e.g. python setup.py test
-script: 
-  - coverage run setup.py test
-  - coverage report -m
+script:
+    - "nosetests --with-coverage --cover-package langevin"  
+#- coverage run setup.py test
+#  - coverage report -m
 
 after_success: coveralls
 
