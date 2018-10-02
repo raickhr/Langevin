@@ -23,7 +23,7 @@ before install:
 
 # Command to run tests, e.g. python setup.py test
 script:
-- coverage run setup.py test
+- coverage run --source=langevin setup.py test
 - coverage report -m
 
 after_success: coveralls
