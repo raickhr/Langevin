@@ -17,9 +17,9 @@ before install:
   - pip install -U pip
   - export PYTHONPATH=$PYTHONPATH:$(pwd)  
   - pip install coverage
-  - pip install matplotlib
+  - pip install matplotlib.pyplot
   - pip install scipy
-  - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
+  - sudo apt-get install -qq python-numpy python-scipy python-matplotlib.pyplot
 
 # Command to run tests, e.g. python setup.py test
 script: 
