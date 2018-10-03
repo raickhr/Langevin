@@ -73,8 +73,8 @@ class test_ckhr(unittest.TestCase):
 
     def test_update_velocity(self):
         #unittest for the function update_velocity
-        velocity = 1
-        dt = 1
+        velocity = 0
+        dt = 0.1
         random.seed(0)
         #calculate updated velocity from RK4 method
         k1 = dt * langevin.acc(velocity)
@@ -90,8 +90,8 @@ class test_ckhr(unittest.TestCase):
 
     def test_update_pos(self):
         #unittest to test function update_pso(velocity)
-        velocity = 1
-        dt = 1
+        velocity = 0
+        dt = 0.1
         position = 1    
         #calculate updated position from RK4 method
 
@@ -109,31 +109,18 @@ class test_ckhr(unittest.TestCase):
         # this checks if the files are written or not
 
         import os
-
-        # initial_position = 1
-        # initial_velocity = 1
-        # temperature = 1
-        # total_time = 10
-        # dt = 1
-
-        # gamma = 1
-        # kB = 1         #Boltzman constant
-
-        # wall_pos1 = 0.0 # wall position 1
-        # wall_pos2 = 5.0 # wall position 2
-
-        # no_of_iterations = int(total_time//dt)  
-
-        # no_of_runs = 100
-        
+        #call main function from the project
         langevin.main()
         
+        #Checking if the finalposition files has generated
         finalpos = os.path.isfile("../langevin/finalpositions.txt")
         self.assertEqual(finalpos,True)
 
+        #Checking if the historgram.png files has generated
         hist = os.path.isfile("../langevin/histogram.png")
         self.assertEqual(hist,True)
 
+        #Checking if the trajectory.png file has generated
         trajec = os.path.isfile("../langevin/trajectory.png")
         self.assertEqual(trajec,True)
 

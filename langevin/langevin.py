@@ -62,12 +62,13 @@ def update_pos(velocity,position):
 
 
 
+
+
 # defining main function
 
 def main():
     global initial_velocity, initial_position
     stop_time = [0] * no_of_runs # time the particle reaches to one of the walls
-    pos_array = [np.float('nan')] * no_of_iterations
     time_array = [0.0] * no_of_iterations
 
     ff =  open("../langevin/finalpositions.txt","w") #opening file to write index, stop time, position, velocity' at the time when the particle stops
@@ -83,6 +84,8 @@ def main():
         position = initial_position
         velocity = initial_velocity
         current_time = 0.0
+        pos_array = [np.float('nan')] * no_of_iterations
+    
         pos_array[0] = position
         time_array[0] = current_time
 
@@ -93,26 +96,34 @@ def main():
             velocity = update_velocity(velocity) # update velocity
             position = update_pos(velocity,position) # update position
             
+            pos_array[iterations] = position # store position for every iteration to plot for the trajectory
+            time_array[iterations] = current_time # store values for the time axis
+        
             #condition for the particle to stop i.e. when the particle reaches wall
             if (position <= wall_pos1) or (position >= wall_pos2):
                 stop_time[runs] = current_time
                 break   # stop iterations when the particle reaches the wall
     
             
-            pos_array[iterations] = position # store position for every iteration to plot for the trajectory
-            time_array[iterations] = current_time # store values for the time axis
-        
             
         ff.write("%3d,\t% 5.4f,\t% 5.4f,\t% 5.4f \n" % (runs,current_time,position,velocity)) # write the time, final position, final_velocity, when the particle stops 
-        plt.plot(time_array,pos_array) # plotting the trajectories
-
+        
     #plt.show()
-    plt.savefig('../langevin/trajectory.png') #saving figure as trajectory.png
+    plt.plot(time_array,pos_array) # plotting the trajectories
+    plt.xlabel('Time')
+    plt.ylabel('Position')
+    plt.title('Trajectory of the Particle')
 
+    plt.savefig('../langevin/trajectory.png') #saving figure as trajectory.png
+    
     plt.clf() #clearing figure for writing histogram
 
-    mybins = [0,2,4,6,8,10] # bins for the histogram
-    plt.hist(stop_time, mybins, histtype= 'bar',rwidth = 0.8, range=(-1,11)) # plotting the histogram
+    mybins = [0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10] # bins for the histogram
+    plt.hist(stop_time, mybins, histtype= 'bar', range=(-1,11)) # plotting the histogram
+    plt.xlabel('Stop Time')
+    plt.ylabel('frequency')
+    plt.title('Histogram for Time When the Particle Reaches the Wall')
+
 
     plt.savefig('../langevin/histogram.png') #saving the histogram
 
@@ -122,10 +133,10 @@ def main():
 # Read the command line arguments if it is there else assing the default values 
 parser = argparse.ArgumentParser()
 parser.add_argument('--temperature', help="Temperature of the particle", type = float, default = 1)
-parser.add_argument('--total_time', help="Total time of the simulation", type = float, default = 10)
-parser.add_argument('--time_step', help="Timestep of the simulation", type = float, default = 1)
-parser.add_argument('--initial_position', help="Initial position of the particle", type = float, default = 1)
-parser.add_argument('--initial_velocity', help="Initial velocity of the particle", type = float, default = 1)
+parser.add_argument('--total_time', help="Total time of the simulation", type = float, default = 1000)
+parser.add_argument('--time_step', help="Timestep of the simulation", type = float, default = 0.1)
+parser.add_argument('--initial_position', help="Initial position of the particle", type = float, default = 0)
+parser.add_argument('--initial_velocity', help="Initial velocity of the particle", type = float, default = 0)
 parser.add_argument('--damping_coefficient', help="Damping coefficient", type = float, default = 1)
 
 args=parser.parse_args()
@@ -147,5 +158,5 @@ no_of_iterations = int(total_time//dt)
 
 no_of_runs = 100
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+main()
