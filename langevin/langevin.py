@@ -109,7 +109,7 @@ def main():
     #plt.show()
     plt.savefig('../langevin/trajectory.png') #saving figure as trajectory.png
 
-    plt.clear() #clearing figure for writing histogram
+    plt.clf() #clearing figure for writing histogram
 
     mybins = [0,2,4,6,8,10] # bins for the histogram
     plt.hist(stop_time, mybins, histtype= 'bar',rwidth = 0.8, range=(-1,11)) # plotting the histogram
