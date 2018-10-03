@@ -74,7 +74,7 @@ def main():
 
     ff.write("index,\t stop time ,\t position ,\t velocity \n" ) # writing the headings in the first line
 
-    fig = plt.figure() #figure for plotting the trajectories and histogram
+    #fig = plt.figure() #figure for plotting the trajectories and histogram
 
     for runs in range(0,no_of_runs): # runs start here
     
@@ -107,14 +107,14 @@ def main():
         plt.plot(time_array,pos_array) # plotting the trajectories
 
     #plt.show()
-    fig.savefig('../langevin/trajectory.png') #saving figure as trajectory.png
+    plt.savefig('../langevin/trajectory.png') #saving figure as trajectory.png
 
-    fig.clear() #clearing figure for writing histogram
+    plt.clear() #clearing figure for writing histogram
 
     mybins = [0,2,4,6,8,10] # bins for the histogram
     plt.hist(stop_time, mybins, histtype= 'bar',rwidth = 0.8, range=(-1,11)) # plotting the histogram
 
-    fig.savefig('../langevin/histogram.png') #saving the histogram
+    plt.savefig('../langevin/histogram.png') #saving the histogram
 
     #plt.show()
     ff.close() # closing the file
