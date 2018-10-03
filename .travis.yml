@@ -10,6 +10,7 @@ python:
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: 
 # pip install -U tox-travis
+- pip install matplotlib
 - pip install coveralls
 - python setup.py install
 
